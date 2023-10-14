@@ -11,6 +11,11 @@ def item_list():
     return Item.all
 
 
+def test_repr(item_list):
+    assert repr(item_list[0]) == "Item('Смартфон', 10000, 20)"
+    assert str(item_list[0]) == 'Смартфон'
+
+
 def test_calculate_total_price(item_list):
     assert item_list[0].calculate_total_price() == 200_000
     assert item_list[1].calculate_total_price() == 100_000
@@ -39,3 +44,4 @@ def test_string_to_number():
     assert Item.string_to_number('5') == 5
     assert Item.string_to_number('5.0') == 5
     assert Item.string_to_number('5.5') == 5
+
