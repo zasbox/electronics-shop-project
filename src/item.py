@@ -1,6 +1,8 @@
 import csv
 import math
 
+from src.exceptions import InstantiateCSVError
+
 
 class Item:
     """
@@ -63,11 +65,17 @@ class Item:
         Считывает список товаров из файла
         @param file_name: имя файла
         """
-        with open(file_name, "r") as f:
-            reader = csv.DictReader(f)
-            cls.all.clear()
-            for row in reader:
-                cls(row['name'], float(row['price']), int(row['quantity']))
+        try:
+            with open(file_name, "r") as f:
+                reader = csv.DictReader(f)
+                cls.all.clear()
+                for row in reader:
+                    cls(row['name'], float(row['price']), int(row['quantity']))
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Отсутствует файл {file_name}")
+        except Exception:
+            raise InstantiateCSVError(f"Файл {file_name} поврежден")
+
 
     @staticmethod
     def string_to_number(string: str):
